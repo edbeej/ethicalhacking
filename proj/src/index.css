@@ -3,3 +3,70 @@ body {
   padding: 0;
   font-family: sans-serif;
 }
+
+header {
+  padding: 0px;
+  margin-bottom: 10px;
+  background-color: #eeeeee;
+  height: 75px;
+}
+
+
+header .wrapper {
+  display: flex;
+}
+
+header .title {
+  margin: 0;
+  padding: 0;
+  padding-left: 20px;
+  flex: 1;
+}
+
+header .title h1 {
+  margin: 0;
+  padding: 0;
+  line-height:75px;
+}
+
+header .buttons {
+  flex: 1;
+  text-align: right;
+}
+
+header .buttons button {
+  margin: 17px;
+  height: 40px;
+  width: 90px;
+  font-size: 1em;
+}
+
+div .showData {
+  display: flex;
+}
+
+div .showData input {
+
+}
+
+div .webButtons {
+  flex: 1;
+  text-align: left;
+  overflow-y: scroll;
+}
+
+div .webButtons ul {
+  list-style-type: none;
+}
+
+div .webButtons input {
+  background-color: #eeeeee;
+  width: 90%;
+  height: 40px;
+  margin: 5px;
+}
+
+div .sitepass {
+  flex: 4;
+  padding: 10px;
+}

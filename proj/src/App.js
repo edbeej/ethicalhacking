@@ -1,21 +1,113 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
+import ShowData from './ShowData';
+
+import firebase, { auth, provider } from './firebase.js';
 
 class App extends Component {
-  render() {
-    return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
-        </header>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
-      </div>
-    );
-  }
+
+    componentDidMount() {
+        auth.onAuthStateChanged((user) => {
+            if (user) {
+                this.setState({ user });
+            }
+        });
+    }
+
+    constructor() {
+        super();
+        this.state = {
+            currentItem: '',
+            username: '',
+            user: null
+        };
+
+        this.handleClick = this.handleClick.bind(this);
+        this.login = this.login.bind(this); // <-- add this line
+        this.logout = this.logout.bind(this); // <-- add this line
+
+    }
+
+    handleClick(e) {
+        e.preventDefault();
+        const itemsRef = firebase.database().ref('items');
+        const item = {
+            title: this.state.currentItem,
+            user: this.state.username
+        }
+        itemsRef.push(item);
+        this.setState({
+            currentItem: '',
+            username: ''
+        });
+    }
+
+    handleChange(e) {
+      /* ... */
+    }
+    logout() {
+        auth.signOut()
+            .then(() => {
+                this.setState({
+                    user: null
+                });
+            });
+    }
+
+    login() {
+        auth.signInWithPopup(provider)
+            .then((result) => {
+                const user = result.user;
+                this.setState({
+                    user
+                });
+            });
+    }
+
+    getPassListCurrent() {
+
+    }
+
+    getAllPassList() {
+
+    }
+
+    getUserPassListCurrent() {
+
+    }
+
+    getAllUserPassList() {
+
+    }git 
+
+    render() {
+        return (
+            <div className='app'>
+              <header>
+                <div className="wrapper">
+                    <div className="title">
+                        <h1>GetMyPassword</h1>
+                    </div>
+                    <div className="buttons">
+                        {this.state.user ?
+                            <button onClick={this.logout}>Log Out</button>
+                            :
+                            <button onClick={this.login}>Log In</button>
+                        }
+                    </div>
+                </div>
+              </header>
+              <div className='container'>
+                  {this.state.user ?
+                      <ShowData/>
+                      :
+                      <div>PLEASE LOG IN</div>
+                  }
+              </div>
+            </div>
+        );
+    }
 }
 
 export default App;
