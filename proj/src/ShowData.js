@@ -88,28 +88,63 @@ class ShowData extends Component {
         const { websiteNames, websiteData } = this.state;
         console.log(websiteSelected);
 
-        // let collections = <table><tbody>{
-        //     websiteData[websiteNames.indexOf(website)].map((data) => <tr><td>{data[0]}</td><td>{data[1]}</td></tr>)
-        // }</tbody></table>;
-
-        let collections = websiteData[websiteNames.indexOf(websiteSelected)].map((data) => ({ username: data[0], password: data[1], time: data[2] }))
+        let collections;
+        if (websiteSelected === "ALL") {
+            collections = [];
+            for (var i  = 0; i < websiteData.length; i++) {
+                for (var j = 0; j < websiteData[i].length; j++) {
+                    collections.push({ username: websiteData[i][j][0], password: websiteData[i][j][1], time: websiteData[i][j][2] })
+                }
+            }
+        } else {
+            collections = websiteData[websiteNames.indexOf(websiteSelected)].map((data) => ({ username: data[0], password: data[1], time: data[2] }))
+            console.log(collections);
+        }
         console.log(collections);
         this.setState({ websiteSelected, collections });
     }
 
+    getPassListCurrent() {
+        var str = "";
+        var collections = this.state.collections;
+        for (var i = 0; i < collections.length; i++) {
+            str += collections[i]["password"] + "\n";
+        }
+        this.download(str, "passwordList", "text/plain");
+    }
+
+
+    getUserPassListCurrent() {
+        var str = "";
+        var collections = this.state.collections;
+        for (var i = 0; i < collections.length; i++) {
+            str += collections[i]["username"] +"," + collections[i]["password"] + "\n";
+        }
+        this.download(str, "userPasswordList", "text/plain");
+    }
+
+
+
     render() {
         const data = [{ Header: "name",
                         columns: this.state.collections }];
-        const columns = [{
-            Header: 'Username',
-            accessor: 'username' // String-based value accessors!
-        }, {
-            Header: 'Password',
-            accessor: 'password',
-        }, {
-            Header: 'Time Accessed',
-            accessor: 'time',
-            Cell: props => <span className='number'>{new Date(parseInt(props.value, 10)).toString('MM/dd/yy HH:mm:ss')}</span>
+        const columns = [
+            { Header: this.state.websiteSelected,
+                columns: [
+
+
+            {
+                Header: 'Username',
+                accessor: 'username' // String-based value accessors!
+            }, {
+                Header: 'Password',
+                accessor: 'password',
+            }, {
+                Header: 'Time Accessed',
+                accessor: 'time',
+                Cell: props => <span
+                    className='number'>{new Date(parseInt(props.value, 10)).toString('MM/dd/yy HH:mm:ss')}</span>
+            }]
         }];
 
         const {dataSet, loadingData, websiteNames, websiteData, collections} = this.state
@@ -121,7 +156,8 @@ class ShowData extends Component {
                 <div className="webButtons">
                 { loadingData ? "loading..." : null }
                 <ul>
-                { websites }
+                    { websites ? <li><input onClick={() => this.select("ALL")} className="allWebNames" type="button" key="all" value="All" /></li> : null }
+                    { websites }
                 </ul>
                 </div>
                 <div className="sitepass">
@@ -129,8 +165,14 @@ class ShowData extends Component {
                         data={collections}
                         columns={columns}
                         /> : null }
+                    { collections ?
+                        <div>
+                            <br/><br/>
+                        <a className="downloadLink" onClick={() => this.getUserPassListCurrent()}>Get Username Password combo file (username, password)</a><br/><br/>
+                        <a className="downloadLink" onClick={() => this.getPassListCurrent()}>Get Password list</a>
+                        </div> : null }
                 </div>
-
+                {/*nsert links to get files of username and password combinations*/}
             </div>
         );
     }

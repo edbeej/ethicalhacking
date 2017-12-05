@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
 import ShowData from './ShowData';
 
@@ -65,21 +64,6 @@ class App extends Component {
             });
     }
 
-    getPassListCurrent() {
-
-    }
-
-    getAllPassList() {
-
-    }
-
-    getUserPassListCurrent() {
-
-    }
-
-    getAllUserPassList() {
-
-    }git 
 
     render() {
         return (
@@ -102,7 +86,7 @@ class App extends Component {
                   {this.state.user ?
                       <ShowData/>
                       :
-                      <div>PLEASE LOG IN</div>
+                      <div className="notlogged">sss</div>
                   }
               </div>
             </div>

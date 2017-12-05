@@ -9,8 +9,19 @@ header {
   margin-bottom: 10px;
   background-color: #eeeeee;
   height: 75px;
+  width: 100%;
+  z-index: 100;
+  position: absolute;
+  top: 0;
 }
 
+div .app {
+  height: 100vh;
+}
+
+div .container {
+  height: auto;
+}
 
 header .wrapper {
   display: flex;
@@ -37,8 +48,23 @@ header .buttons {
 header .buttons button {
   margin: 17px;
   height: 40px;
-  width: 90px;
+  width: 120px;
   font-size: 1em;
+  position: relative;
+
+  padding: 0;
+
+  overflow: hidden;
+
+  border-width: 0;
+  outline: none;
+  border-radius: 2px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, .6);
+
+  background-color: #2196F3;
+  color: #ecf0f1;
+
+  transition: background-color .3s;
 }
 
 div .showData {
@@ -69,4 +95,25 @@ div .webButtons input {
 div .sitepass {
   flex: 4;
   padding: 10px;
+}
+
+div .notlogged {
+  background-image: url('spy2.jpg');
+  background-repeat: no-repeat;
+  background-size: auto 100vh;
+  background-position-x: center;
+  width: 100%;
+  margin-top: 0px;
+  height: 100vh;
+}
+
+div .showData {
+  margin-top: 75px;
+}
+
+a.downloadLink {
+  font-weight: bold;
+  color: #039be5;
+  cursor: pointer;
+  text-decoration: underline;
 }
