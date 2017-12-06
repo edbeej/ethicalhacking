@@ -49,13 +49,9 @@ class ShowData extends Component {
     }
 
     compileData(dataSet) {
-        console.log("attempting");
-        console.log(dataSet);
         const websiteNames = [...new Set(dataSet.map((child) => child[1]))].sort();
-        console.log("website names", websiteNames);
         const websiteData = websiteNames.map((website) => []);
         dataSet.map((child) => websiteData[websiteNames.indexOf(child[1])].push([child[2], child[3], child[4]]));
-        console.log("AFTER", websiteData);
         this.setState({ loadingData: false, dataSet, websiteData, websiteNames });
         if (this.state.websiteSelected) {
             this.select(this.state.websiteSelected);
@@ -64,7 +60,6 @@ class ShowData extends Component {
 
     getData() {
         var dataRef= firebase.database().ref('log');
-        console.log('in here');
         const dataSet = [];
         var that = this;
 
@@ -80,13 +75,10 @@ class ShowData extends Component {
             //that.setState({ loadingData: false, dataSet: fbData });
         });
 
-        console.log('FINAL', dataSet);
-        console.log(dataSet.length);
     }
 
     select(websiteSelected) {
         const { websiteNames, websiteData } = this.state;
-        console.log(websiteSelected);
 
         let collections;
         if (websiteSelected === "ALL") {
@@ -98,9 +90,7 @@ class ShowData extends Component {
             }
         } else {
             collections = websiteData[websiteNames.indexOf(websiteSelected)].map((data) => ({ username: data[0], password: data[1], time: data[2] }))
-            console.log(collections);
         }
-        console.log(collections);
         this.setState({ websiteSelected, collections });
     }
 
@@ -126,8 +116,6 @@ class ShowData extends Component {
 
 
     render() {
-        const data = [{ Header: "name",
-                        columns: this.state.collections }];
         const columns = [
             { Header: this.state.websiteSelected,
                 columns: [
